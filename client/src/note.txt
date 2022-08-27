@@ -1,0 +1,151 @@
+Xử lý truy xuất đồng thời
+GỌI API TỚI SERVER THÌ SERVER LUÔN CẦN TRẢ VỀ THỨ GÌ ĐÓ
+
+
+Redux Thunk cho phép trả về các Action là một function thay vì chỉ là một PJO, nó đóng vai trò
+ là một Middleware được đặt trước thời điểm reducer nhận request để nhận biết các action có trả về một PJO hay không, 
+ nếu đó là một PJO, Thunk sẽ chuyển action đó đến Reducer như thường lệ, nếu action trả về là một function, Redux Thunk sẽ
+ "chặn" action đó lại và đợi cho đến khi một lệnh asynchronous nào đó trong function hoàn tất và trả về kết quả
+
+
+
+Nguyên tắc một app React là dựa vào component. Mỗi component có state và props. Nếu state của một component 
+thay đổi thì nó sẽ được render lại. Props để truyền data từ component cha sang component con
+
+
+https://viblo.asia/p/tim-hieu-ve-redux-thunk-Qbq5Qkm4ZD8
+
+
+vòng đời redux: view -> actions -> middleware -> dispatch -> reducer -> new state -> view
+
+view(ui)  ---trigger--->  actions  ---dispatch--->  reducer  ---update--->  store  ---contains--->  new state  ---define--->  ui
+
+makeStyle trả về 1 hàm useStyle
+
+
+dispatch: gửi đi action
+
+
+create, mongo cập nhật chưa xong mà đã get
+
+component nào dùng useSelector để lấy state thì mới bị re-render
+
+mount: component vô dom
+
+react-router-dom là thư viện giúp cho việc điều hướng url tới các component (nôm na là như vậy) trong react js
+Trong thư viện này useHisrtory được sử dụng để thay đổi url, ví dụ như khi bạn đang ở mà hình login chẳng hạn, \users\login, sau khi 
+đã authen xong thì cần redirect tới màn dashboard, ta dùng
+
+                  const history = useHistory();
+
+                  history.push('\dashboard`);
+
+useLocation sẽ trả về location object hiện tại. Nó sẽ giúp ích trong trường hợp chúng ta muốn lấy thông tin từ URL hiện tại. Ví dụ như, bạn muốn gửi một sự kiện "page view" đến một analytics service mỗi khi URL thay đổi. Với useLocation, bạn chỉ cần làm như sau:
+                  
+
+Toolbar is to display its children with an inline display (elements are placed next to each other), something Appbar doesn't do.
+https://stackoverflow.com/questions/52653103/what-is-appbar-vs-toolbar
+
+Route: Định nghĩa một ánh xạ (mapping) giữa một URL và một Component. 
+Điều đó có nghĩa là khi người dùng truy cập theo một URL trên trình duyệt,
+ một Component tương ứng sẽ được render trên giao diện.
+
+useState: two way binding
+  chỉ re-render lại component khi giá trị state thay đổi(===)
+  sau khi re-render thì hàm có phạm vi mới, không liên quan đến phạm vi trước đó(xem bài useRef)
+  xem bài useRef để hiểu thêm về setState(count-1) và setState(pre => pre-1), chú ý dùng state với setInterval
+
+
+useEffect: update DOM, call API, listen DOM events, Cleanup, tương đương với các hàm trong lifecycle
+**ĐỀU gọi callback SAU KHI component mounted
+1. useEffect(callback): componentDidUpdate
+  - Gọi callback mỗi khi component re-render (setState)
+2. useEffect(callback, []): componentDidMount
+  - Gọi callback CHỈ 1 LẦN sau khi component mounted
+3. useEffect(callback, [deps]): componentDidMount
+  - Gọi callback MỖI khi deps thay đổi
+
+
+
+  --cleanup function(hàm return trong callback của useEffect) được gọi trước khi component unmount, trước khi callback useEfffect mới được gọi
+
+  luồng hoạt động useEffect: 
+    Cập nhật lại state
+    Cập nhật thuộc tính của DOM
+    Render lại UI
+    Gọi cleanup
+    gọi useEffect callback
+
+ luồng hoạt động useLayoutEffect: 
+    Cập nhật lại state
+    Cập nhật thuộc tính của DOM
+    Gọi cleanup
+    gọi useEffect callback
+    Render lại UI
+
+
+
+useRef hook là một function trả về một object với thuộc tính current được khởi tạo thông qua tham số truyền vào. 
+Object được trả về này có thể mutate và sẽ tồn tại xuyên suốt vòng đời của component.
+
+forwardRef là một method cho phép các components cha truyền các refs (tham chiếu) xuống các 
+component con của chúng. forwardRef đưa cho component con một tham chiếu đến một phần tử DOM được 
+tạo bởi cha của nó và điều này cho phép chúng có thể đọc và sửa đổi phần tử đó ở bất cứ đâu mà nó đang được sử dụng.
+
+useImperativeHandle   cho phép bạn làm hai việc:
+    Nó cho phép bạn kiểm soát giá trị được trả về. Thay vì trả về phần tử phiên bản, bạn nói rõ giá trị trả về sẽ là gì 
+    Nó cho phép bạn thay thế các chức năng gốc (chẳng hạn như blur, focusv.v.) bằng các chức năng của riêng bạn, do đó 
+      cho phép các tác dụng phụ đối với hành vi bình thường hoặc hành vi khác hoàn toàn
+
+const refContainer = useRef(initialValue);
+
+useMemo: tránh cho việc tính toán lại một function lặp đi lặp lại nhiều lần mỗi lần component re-render. 
+Bản chất useMemo là caching lại giá trị return của function, mỗi lần component rerender nó sẽ kiểm tra giá trị tham số truyền 
+vào function nếu giá trị đó không thay đổi, thì return value đã caching trong memory. Ngược lại nếu giá trị tham số truyền vào thay đổi, 
+nó sẽ thực hiện tính toán lại 
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+React.memo(): nhận component con, check props của component này sau mỗi lần render có bị thay đổi không, nếu có thì component này sẽ 
+  được re-render còn nếu không thì không re-render(sử dụng toán tử === để so sánh props)
+  dùng để tránh lag khi render lại những component con phức tạp nhiều lần
+
+  Chú ý: dùng memo thì dùng thêm useCallback cho những kiểu dữ liệu tham chiếu(function, object)
+
+
+--quy ước đặt tên:
+  + Hàm xử lý thì bắt đầu bằng handle
+  + props chờ hành động xảy ra bắt đầu bằng on
+
+
+useReducer là một phiên bản nâng cao của useState, dùng trong trường hợp local state của component phức tạp, 
+có nhiều action làm thay đổi state đó. Thay vì các bạn dùng nhiều useState
+
+useReducer function nhận vào reducer và initialState khởi tạo ban đầu, trả về state hiện tại và dispatch function dùng để trigger 1 action
+
+1. init state
+2. Actions
+3. Reducer
+4. Dispatch
+
+
+React Context sẽ cho phép chúng ta có thể tạo data và truyền nó với một provider đến tất cả component
+ trong ứng dụng React mà không cần dùng “prop drilling”.
+
+ 
+compA => compB => compC
+react context()
+1. create context
+2. provider
+3. consumer
+
+
+
+
+
+
+
+
+
+
+
+
