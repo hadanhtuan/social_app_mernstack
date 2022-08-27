@@ -1,10 +1,13 @@
-import express from 'express'
-import bodyParser from "body-parser"
-import mongoose from 'mongoose'
-import cors from 'cors'
-import dotenv from 'dotenv'
-import postRoutes from './routes/posts.js';
-import userRoutes from './routes/user.js'
+const express = require('express')
+const bodyParser = require("body-parser")
+const mongoose = require('mongoose')
+const cors = require('cors')
+const dotenv = require('dotenv')
+const userRoutes = require('./routes/user.js')
+const postRoutes = require('./routes/posts.js')
+
+const swaggerUi = require('swagger-ui-express')
+const swaggerDoc = require('./swagger.json')
 
 const app = express()
 
@@ -23,11 +26,7 @@ mongoose.connect(process.env.CONNECT_URL, { useNewUrlParser: true, useUnifiedTop
 
 app.use('/posts', postRoutes)
 app.use('/user', userRoutes)
-
-
-
-
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 
 

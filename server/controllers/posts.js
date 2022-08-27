@@ -1,5 +1,5 @@
-import PostMessage from "../models/postMessage.js";
-import mongoose from 'mongoose';
+const PostMessage = require("../models/postMessage.js")
+const mongoose = require('mongoose')
 
 const getPosts = async (req, res) => {
   try {
@@ -44,8 +44,7 @@ const getPost = async (req, res) => {
     console.log(err)
     res.status(404).json({ message: err.message });
   }
-};
-
+};            
 
 const getPostsBySearch = async (req, res) => {
   const { searchText, tags } = req.query
@@ -83,11 +82,11 @@ const createPost = async (req, res) => {
 
 const editPost = async (req, res) => {
   const { id } = req.params;
-  const { title, message, creator, selectedFile, tags } = req.body;
+  const { title, message, selectedFile, tags } = req.body;
   console.log(req.params)
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-  const updatedPost = { creator, title, message, tags, selectedFile, _id: id };
+  const updatedPost = { title, message, tags, selectedFile, _id: id };
 
   await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true });
 
@@ -122,4 +121,4 @@ const deletePost = async (req, res) => {
   }
 };
 
-export { getPost, getPosts, createPost, editPost, likePost, deletePost, getPostsBySearch, getPostsByCreator };
+module.exports = { getPost, getPosts, createPost, editPost, likePost, deletePost, getPostsBySearch, getPostsByCreator };

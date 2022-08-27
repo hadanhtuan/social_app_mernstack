@@ -1,8 +1,8 @@
-import PostMessage from "../models/postMessage.js";
-import User from "../models/user.js";
+const PostMessage = require("../models/postMessage.js")
+const User = require("../models/user.js")
 
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
 const signup = async (req, res) => {  //register
   console.log(1)
@@ -61,7 +61,7 @@ const signin = async (req, res) => {  //register
   }
 }
 
-export {
+module.exports =  {
   signup,
   signin
 }

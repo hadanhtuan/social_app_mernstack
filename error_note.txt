@@ -1,3 +1,5 @@
+làm swagger                               done
 cloudinary ở backend
 validate ở backend trước khi xóa post
-làm swagger
+
+nodejs module như cái cc
